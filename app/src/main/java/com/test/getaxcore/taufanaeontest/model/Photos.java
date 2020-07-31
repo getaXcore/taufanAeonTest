@@ -28,6 +28,11 @@ public class Photos {
         this.thumbnailUrl = thumbnailUrl;
     }
 
+    public Photos(String title,String thumbnailUrl){
+        this.title = title;
+        this.thumbnailUrl = thumbnailUrl;
+    }
+
     public void setAlbumId(Long albumId){
         this.albumId = albumId;
     }

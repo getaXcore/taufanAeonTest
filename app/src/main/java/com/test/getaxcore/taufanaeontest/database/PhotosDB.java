@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 public class PhotosDB extends SQLiteOpenHelper{
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 12;
     private static final String DATABASE_NAME = "PhotoManager";
     private static final String TABLE_NAME = "Photos";
 
@@ -35,8 +35,8 @@ public class PhotosDB extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db){
         String CREATE_PHOTOS_TABLE = "CREATE TABLE "+TABLE_NAME+" ( "
                 +IDs+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-                +ALBUM_ID+" LONG,"
-                +PHOTO_ID+" LONG,"
+                +ALBUM_ID+" TEXT,"
+                +PHOTO_ID+" TEXT,"
                 +TITLE+" TEXT,"
                 +URL+" TEXT,"
                 +THUMBNAIL_URL+" TEXT "
@@ -73,18 +73,15 @@ public class PhotosDB extends SQLiteOpenHelper{
         List<Photos> photosList = new ArrayList<Photos>();
 
         //select query all photos
-        String selectQuery = "SELECT "+ALBUM_ID+","+PHOTO_ID+","+TITLE+","+URL+","+THUMBNAIL_URL+" FROM "+TABLE_NAME;
+        String selectQuery = "SELECT "+TITLE+","+THUMBNAIL_URL+" FROM "+TABLE_NAME;
         Cursor cursor = db.rawQuery(selectQuery,null);
 
         //add to list
         if (cursor.moveToFirst()){
             do {
                 Photos photos = new Photos();
-                photos.setAlbumId(Long.parseLong(cursor.getString(0)));
-                photos.setId(Long.parseLong(cursor.getString(1)));
-                photos.setTitle(cursor.getString(2));
-                photos.setUrl(cursor.getString(3));
-                photos.setThumbnailUrl(cursor.getString(4));
+                photos.setTitle(cursor.getString(0));
+                photos.setThumbnailUrl(cursor.getString(1));
 
                 photosList.add(photos);
             }while (cursor.moveToNext());
@@ -119,10 +116,23 @@ public class PhotosDB extends SQLiteOpenHelper{
 
     //deleteAll
     public void deletePhotos(){
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
 
         String selectQuery = "DELETE FROM "+TABLE_NAME;
 
         db.execSQL(selectQuery);
+    }
+
+    public int getPhotosCount(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectCount = "SELECT COUNT(*) FROM "+TABLE_NAME;
+
+        Cursor cursor = db.rawQuery(selectCount,null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+
+        return count;
     }
 }

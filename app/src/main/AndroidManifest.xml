@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,9 +19,12 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".MainActivity"/>
 
-        <service android:name=".service.BackgroundService"
-            android:enabled="true"/>
+        <service
+            android:name=".service.BackgroundService"
+            android:enabled="true" />
+
         <receiver
             android:name=".service.BackgroundRestarterBroadcastReceiver"
             android:enabled="true"
@@ -31,8 +34,6 @@
                 <action android:name="com.test.getaxcore.ActivityRecognition.RestartSensor" />
             </intent-filter>
         </receiver>
-
-
     </application>
 
 </manifest>

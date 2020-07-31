@@ -4,28 +4,14 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.telecom.Call;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.test.getaxcore.taufanaeontest.database.PhotosDB;
 import com.test.getaxcore.taufanaeontest.model.Photos;
 import com.test.getaxcore.taufanaeontest.restapi.ApiClient;
 import com.test.getaxcore.taufanaeontest.restapi.ApiInterface;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.TimerTask;
 
 import retrofit2.Callback;
 
@@ -49,7 +35,7 @@ public class BackgroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent,int flags, int startId){
-        getAllPhotos();
+        getAllPhotos_();
         return super.onStartCommand(intent,flags,startId);
     }
 
@@ -60,7 +46,7 @@ public class BackgroundService extends Service {
         sendBroadcast(broadcastIntent);
     }
 
-    public void getAllPhotos(){
+    public void getAllPhotos_(){
         db = new PhotosDB(context);
 
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
@@ -69,14 +55,15 @@ public class BackgroundService extends Service {
             @Override
             public void onResponse(retrofit2.Call<List<Photos>> call, retrofit2.Response<List<Photos>> response) {
                 try {
-                    Log.d(TAG, "onResponse: "+response.toString());
+
                     final List<Photos> list = response.body();
+                    Log.d(TAG, "onResponse: "+list.get(1).getTitle());
 
                     //deleteOldData
                     db.deletePhotos();
 
                     for (int i=0;i<list.size();i++){
-                        db.addPhoto(new Photos(
+                      db.addPhoto(new Photos(
                                 list.get(i).getAlbumId(),
                                 list.get(i).getId(),
                                 list.get(i).getTitle(),
@@ -84,6 +71,8 @@ public class BackgroundService extends Service {
                                 list.get(i).getThumbnailUrl()
                         ));
                     }
+
+
 
                 }catch (NullPointerException e){
                     e.printStackTrace();
