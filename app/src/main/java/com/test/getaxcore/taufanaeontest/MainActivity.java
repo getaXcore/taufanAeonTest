@@ -2,12 +2,17 @@ package com.test.getaxcore.taufanaeontest;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.test.getaxcore.taufanaeontest.adapter.ImageAdapterDB;
@@ -25,6 +30,7 @@ public class MainActivity extends Activity {
     private Context context = this;
     Intent serviceIntent;
     private static final String TAG = MainActivity.class.getSimpleName();
+    EditText textSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,7 @@ public class MainActivity extends Activity {
         //init
         photosList = (RecyclerView)findViewById(R.id.imageList);
         photosDB = new PhotosDB(context);
+        textSearch = (EditText)findViewById(R.id.txtSearch);
 
         backgroundService = new BackgroundService(context);
         serviceIntent = new Intent(context,backgroundService.getClass());
@@ -43,7 +50,8 @@ public class MainActivity extends Activity {
         }
 
         //getPhotosList
-       getPhotoFromDB();
+        ByActionSearch();
+        getPhotoFromDB();
 
     }
 
@@ -58,6 +66,31 @@ public class MainActivity extends Activity {
         }
 
         return false;
+    }
+
+
+    private void ByActionSearch(){
+        textSearch.setOnEditorActionListener(new TextView.OnEditorActionListener(){
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
+                if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                    String keyTitle = String.valueOf(textSearch.getText());
+
+                    //get by title
+                    final List<Photos> list = photosDB.getPhotosByTitle(keyTitle);
+
+                    ImageAdapterDB adapterDB = new ImageAdapterDB(MainActivity.this);
+                    adapterDB.setList(list); //add photos to list
+
+                    //add to recyclerView
+                    photosList.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                    photosList.setAdapter(adapterDB);
+
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void getPhotoFromDB(){

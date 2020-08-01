@@ -1,12 +1,27 @@
 package com.test.getaxcore.taufanaeontest;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
+
+import com.test.getaxcore.taufanaeontest.database.PhotosDB;
+import com.test.getaxcore.taufanaeontest.model.Photos;
+import com.test.getaxcore.taufanaeontest.restapi.ApiClient;
+import com.test.getaxcore.taufanaeontest.restapi.ApiInterface;
+import com.test.getaxcore.taufanaeontest.service.BackgroundService;
+
+import java.util.List;
+
+import retrofit2.Callback;
 
 public class SplashActivity extends Activity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,4 +48,6 @@ public class SplashActivity extends Activity {
         };
         welcomeThread.start();
     }
+
+
 }

@@ -6,9 +6,32 @@
     android:layout_height="match_parent"
     tools:context="com.test.getaxcore.taufanaeontest.MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/cardview_dark_background"
+        android:id="@+id/LinSearchBar">
+
+        <EditText
+        android:id="@+id/txtSearch"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="5dp"
+        android:background="@color/cardview_light_background"
+        android:ems="10"
+        android:hint="@string/barSerach"
+        android:gravity="center"
+        android:imeOptions="actionSearch"
+        android:inputType="text">
+    </EditText>
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/imageList" />
+        android:id="@+id/imageList"
+        android:layout_below="@id/LinSearchBar"/>
 
 </RelativeLayout>

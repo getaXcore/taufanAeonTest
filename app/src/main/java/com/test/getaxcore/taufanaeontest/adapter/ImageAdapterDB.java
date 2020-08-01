@@ -1,6 +1,7 @@
 package com.test.getaxcore.taufanaeontest.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +43,8 @@ public class ImageAdapterDB extends RecyclerView.Adapter<ImageAdapterDB.Category
     public void onBindViewHolder(ImageAdapterDB.CategoryViewHolder holder,int position){
         holder.textItem.setText(getList().get(position).getTitle());
         String imageUrl = getList().get(position).getThumbnailUrl();
-        Picasso.with(context).load(imageUrl)
+        Picasso.with(context)
+                .load(imageUrl)
                 .placeholder(R.color.cardview_light_background)
                 .error(R.mipmap.ic_launcher)
                 .into(holder.itemImagePost);

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">taufanAeonTest</string>
     <string name="splash">Welcome...</string>
+    <string name="barSerach">Find with title photo here..</string>
 </resources>

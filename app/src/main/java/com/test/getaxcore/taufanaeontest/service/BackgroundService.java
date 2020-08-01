@@ -1,11 +1,14 @@
 package com.test.getaxcore.taufanaeontest.service;
 
+import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
+
+
 import com.test.getaxcore.taufanaeontest.database.PhotosDB;
 import com.test.getaxcore.taufanaeontest.model.Photos;
 import com.test.getaxcore.taufanaeontest.restapi.ApiClient;
@@ -24,9 +27,6 @@ public class BackgroundService extends Service {
     private PhotosDB db;
     private static final String TAG = BackgroundService.class.getSimpleName();
     public final Context context = this;
-    private Long albumId, id;
-    private String title,url,thumbnailTitle;
-    //private final String baseUrl = "https://jsonplaceholder.typicode.com";
 
     public BackgroundService(Context context){
         super();
